@@ -1,26 +1,31 @@
 function ColorMyPencils(color)
-  color = color or "rose-pine-moon"
+  color = color or "catppuccin-mocha"
   vim.cmd.colorscheme(color)
 
-  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+  -- If transparent background is not supported by the colorscheme
+  -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+  -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 end
 
 return {
-
   {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
+    opts = { transparent_background = true },
   },
+
   {
     "folke/tokyonight.nvim",
     lazy = false,
-    opts = {},
+    opts = {
+      transparent_background = "true",
+    },
     config = function()
       ColorMyPencils()
     end,
   },
+
   {
     "ellisonleao/gruvbox.nvim",
     name = "gruvbox",

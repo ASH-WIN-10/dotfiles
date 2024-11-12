@@ -31,6 +31,7 @@ return { -- Autocompletion
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-path",
   },
+
   config = function()
     -- See `:help cmp`
     local cmp = require("cmp")
@@ -93,10 +94,10 @@ return { -- Autocompletion
       },
 
       -- For rounded borders
-      -- window = {
-      --     completion = cmp.config.window.bordered(),
-      --     documentation = cmp.config.window.bordered(),
-      -- },
+      window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+      },
     })
   end,
 }
