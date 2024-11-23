@@ -158,3 +158,6 @@ export PATH=$PATH:$HOME/go/bin
 
 # spicetify
 export PATH=$PATH:/home/ashvinjangid/.spicetify
+
+# deno
+. "/home/ashvinjangid/.deno/env"
