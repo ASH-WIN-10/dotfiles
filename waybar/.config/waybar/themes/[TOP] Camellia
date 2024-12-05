@@ -5,7 +5,7 @@
 //* --- 👍 designed by https://github.com/Krautt  👍 --- */
 
 {
- 
+
 "include": "~/.config/waybar/modules",
 "layer": "top",
 //"mode": "dock",
@@ -19,18 +19,18 @@
 //"margin-bottom": 0,
 //"margin-left": 0,
 //"margin-right": 0,
-	
+
 "modules-left": [
 	"hyprland/workspaces",
-	"custom/separator#line", 
+	"custom/separator#line",
 	"mpris",
-	"custom/swaync", 
-	"tray#cam", 
+	"custom/swaync",
+	"tray#cam",
 	"wlr/taskbar"
 	],
 
-"modules-center": ["hyprland/window#cam"], 
-	
+"modules-center": ["hyprland/window#cam"],
+
 "modules-right": [
   "network#speed",
 	"custom/backlight",
@@ -38,7 +38,7 @@
 	"custom/speaker",
 	"pulseaudio/slider",
 	"battery#cam",
-	"clock", 
+	"clock",
 	// "network#cam",
 	"custom/power",
 	],
@@ -71,7 +71,7 @@
 		"8":"Otto",
 		"9":"Nove",
 		"10":"Dieci"
-	}	
+	}
 },
 
 "hyprland/window#cam": {
@@ -128,11 +128,11 @@
 	"min": 0,
 	"max": 100,
 	"orientation": "horizontal",
-	
+
 },
 
 "custom/speaker": {
-	"exec": "echo '🔊'",  
+	"exec": "echo '🔊'",
 	"interval": 1,
 	"format": "{}"
 },
@@ -145,7 +145,7 @@
 },
 
 "custom/backlight": {
-	"exec": "echo '✨'",  
+	"exec": "echo '✨'",
 	"interval": 1,
 	"format": "{}"
 },
@@ -159,7 +159,7 @@
 	"format": "{ifname}",
 	"format-wifi": "{icon}",
 	"format-ethernet": "󰌘",
-	"format-disconnected": "󰌙", 
+	"format-disconnected": "󰌙",
 	"tooltip-format": "{ipaddr}  {bandwidthUpBytes}  {bandwidthDownBytes}",
 	"format-linked": "󰈁 {ifname} (No IP)",
 	"tooltip-format-wifi": "{essid} {icon} {signalStrength}%",
@@ -177,7 +177,8 @@
 	"on-click": "activate",
 	"on-click-middle": "close",
 	"ignore-list": [
-	    "kitty"
+        "kitty",
+        "alacritty"
 		],
 		"app_ids-mapping": {
 		  "firefoxdeveloperedition": "firefox-developer-edition"
