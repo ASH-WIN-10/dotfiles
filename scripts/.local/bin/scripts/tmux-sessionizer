@@ -7,10 +7,9 @@ else
         ~/Workspace/Practice/ \
         ~/Workspace/Projects/ \
         ~/Workspace/advent_of_code/ \
-        ~/dotfiles/tmux/.config/ \
-        ~/dotfiles/hypr/.config/ \
-        ~/dotfiles/nvim/.config/ \
-        -mindepth 1 -maxdepth 1 -type d | fzf)
+        ~/.config/ \
+        ~/.local/bin/scripts/ \
+        -mindepth 1 -maxdepth 1 -type d,l | fzf)
 fi
 
 if [[ -z $selected ]]; then
