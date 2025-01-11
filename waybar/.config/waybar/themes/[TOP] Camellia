@@ -32,11 +32,11 @@
 "modules-center": ["hyprland/window#cam"],
 
 "modules-right": [
-  "network#speed",
-	"custom/backlight",
-	"backlight/slider",
-	"custom/speaker",
-	"pulseaudio/slider",
+    // "network#speed",
+	// "custom/backlight",
+	// "backlight/slider",
+	// "custom/speaker",
+	// "pulseaudio/slider",
 	"battery#cam",
 	"clock",
 	// "network#cam",
