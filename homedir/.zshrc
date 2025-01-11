@@ -39,9 +39,7 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 # if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
 #   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 # fi
-
 # source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme
-
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 #####################
 
@@ -141,6 +139,7 @@ export PATH=$HOME/.local/bin:$PATH
 # aliases
 alias v="nvim"
 alias tmux-sessionizer="~/.local/bin/scripts/tmux-sessionizer"
+alias gl="git --no-pager log --oneline --graph --all --decorate -n 10"
 
 # flatpak aliases
 alias spotify="flatpak run com.spotify.Client"

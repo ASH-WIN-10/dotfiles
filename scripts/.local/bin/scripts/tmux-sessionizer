@@ -8,7 +8,7 @@ else
         ~/Workspace/Projects/ \
         ~/Workspace/advent_of_code/ \
         ~/.config/ \
-        ~/.local/bin/scripts/ \
+        ~/.local/bin/ \
         -mindepth 1 -maxdepth 1 -type d,l | fzf)
 fi
 
