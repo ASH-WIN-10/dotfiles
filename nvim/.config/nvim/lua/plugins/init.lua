@@ -6,7 +6,17 @@ return {
     "github/copilot.vim",
 
     --code screenshot
-    "segeljakt/vim-silicon",
+    {
+        "mistricky/codesnap.nvim",
+        build = "make",
+        opts = {
+            save_path = "~/Pictures/CodeSnap/",
+            watermark = "",
+            bg_x_padding = 80,
+            bg_y_padding = 60,
+            bg_theme = "grape",
+        },
+    },
 
     -- Markdown preview
     {
