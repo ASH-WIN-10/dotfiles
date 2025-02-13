@@ -103,7 +103,6 @@ return {
 
             local servers = {
                 ts_ls = {},
-                gopls = {},
                 pyright = {},
 
                 lua_ls = {
