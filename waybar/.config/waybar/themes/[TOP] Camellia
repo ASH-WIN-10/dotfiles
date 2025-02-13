@@ -37,6 +37,7 @@
 	// "backlight/slider",
 	// "custom/speaker",
 	// "pulseaudio/slider",
+    "pulseaudio",
 	"battery#cam",
 	"clock",
 	// "network#cam",
