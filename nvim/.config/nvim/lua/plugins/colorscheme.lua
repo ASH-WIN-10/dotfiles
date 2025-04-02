@@ -1,5 +1,5 @@
 function ColorMyPencils(color)
-    color = color or "rose-pine-moon"
+    color = color or "catppuccin-mocha"
     vim.cmd.colorscheme(color)
 
     -- If transparent background is not supported by the colorscheme
