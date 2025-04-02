@@ -29,12 +29,12 @@ return { -- Autoformat
         end,
         formatters_by_ft = {
             lua = { "stylua" },
-            javascript = { "prettierd", stop_after_first = true },
-            typescript = { "prettierd", stop_after_first = true },
-            javascriptreact = { "prettierd", stop_after_first = true },
-            typescriptreact = { "prettierd", stop_after_first = true },
-            json = { "prettier", "prettierd", stop_after_first = true },
-            html = { "prettier", "prettierd", stop_after_first = true },
+            javascript = { "prettierd" },
+            typescript = { "prettierd" },
+            javascriptreact = { "prettierd" },
+            typescriptreact = { "prettierd" },
+            json = { "prettierd" },
+            html = { "prettierd" },
         },
     },
 }
