@@ -146,7 +146,7 @@ alias spotify="flatpak run com.spotify.Client"
 alias overskride="flatpak run io.github.kaii_lb.Overskride"
 unset DOCKER_HOST
 alias protontricks='flatpak run com.github.Matoking.protontricks'
-alias zen="flatpak run io.github.zen-browser.Zen"
+alias zen="flatpak run app.zen_browser.zen"
 
 # webi
 source ~/.config/envman/PATH.env
