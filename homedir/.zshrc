@@ -133,13 +133,6 @@ alias v="nvim"
 alias tmux-sessionizer="~/.local/bin/scripts/tmux-sessionizer"
 alias gl="git --no-pager log --oneline --graph --all --decorate -n 10"
 
-# flatpak aliases
-alias spotify="flatpak run com.spotify.Client"
-alias overskride="flatpak run io.github.kaii_lb.Overskride"
-unset DOCKER_HOST
-alias protontricks='flatpak run com.github.Matoking.protontricks'
-alias zen="flatpak run app.zen_browser.zen"
-
 # webi
 source ~/.config/envman/PATH.env
 
@@ -154,5 +147,3 @@ export PATH=$PATH:/home/ashvinjangid/.spicetify
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-export PATH=$PATH:/home/ashvin/.spicetify
