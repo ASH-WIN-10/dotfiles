@@ -80,6 +80,15 @@ if [[ $install_fonts == "y" || $install_fonts == "Y" ]]; then
 fi
 
 
+# cursor themse
+read -p $'\nInstall cursor theme? (y/n): ' install_theme
+if [[ $install_theme == "y" || $install_theme == "Y" ]]; then
+    wget https://github.com/ful1e5/Bibata_Cursor/releases/download/v2.0.7/Bibata-Modern-Ice.tar.xz
+    tar -xvf Bibata-Modern-Ice.tar.xz
+    mv Bibata-Modern-Ice ~/.local/share/icons/
+    rm Bibata-Modern-Ice.tar.xz
+fi
+
 # wallpapers
 read -p $'\nInstall wallpapers? (y/n): ' install_wallpapers
 if [[ $install_wallpapers == "y" || $install_wallpapers == "Y" ]]; then
