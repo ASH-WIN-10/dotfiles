@@ -145,6 +145,14 @@ if [[ $install_termutils == "y" || $install_termutils == "Y" ]]; then
 fi
 
 
+# tpm
+read -p $'\nInstall Tmux Plugin Manager(TPM)? (y/n): ' install_tpm
+if [[ $install_tpm == "y" || $install_tpm == "Y" ]]; then
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    echo "\n\nTmux Plugin Manager installed. Press prefix + I in 'tmux' to install plugins."
+fi
+
+
 # package managers (flatpak and brew)
 read -p $'\nInstall package managers (flatpak, homebrew)? (y/n): ' install_pkgmgrs
 if [[ $install_pkgmgrs == "y" || $install_pkgmgrs == "Y" ]]; then
