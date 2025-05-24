@@ -1,4 +1,4 @@
-#!usr/bin/env bash
+#!/usr/bin/env bash
 
 
 # yay
@@ -7,7 +7,6 @@ sudo pacman -S --needed --noconfirm git base-devel
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
-cd ~
 
 
 # update the system
@@ -33,7 +32,8 @@ if [[ $install_dotfiles == "y" || $install_dotfiles == "Y" ]]; then
     echo "\n\nInstalling dotfiles..."
     cd ~ && git clone https://github.com/ASH-WIN-10/dotfiles.git
     cd dotfiles
-    stow *
+    stow fastfetch homedir nvim scripts tmux wlogout \
+        ghostty hypr kitty pywal rofi swaync waybar
 
     # packages
     echo "\n\nInstalling packages..."
@@ -69,7 +69,7 @@ fi
 read -p $'\nInstall fonts? (y/n): ' install_fonts
 if [[ $install_fonts == "y" || $install_fonts == "Y" ]]; then
     echo "\n\nInstalling fonts..."
-    mkdir -p ~/.local/share/fonts
+    cd ~ && mkdir -p ~/.local/share/fonts
     wget https://www.1001fonts.com/download/alfa-slab-one.zip
     unzip alfa-slab-one.zip -d ~/.local/share/fonts
     rm alfa-slab-one.zip
@@ -114,6 +114,14 @@ if [[ $setup_bluetooth == "y" || $setup_bluetooth == "Y" ]]; then
 fi
 
 
+# package managers (flatpak)
+read -p $'\nInstall flatpak? (y/n): ' install_flatpak
+if [[ $install_flatpak == "y" || $install_flatpak == "Y" ]]; then
+    echo "\n\nInstalling flatpak..."
+    yay -S --needed --noconfirm flatpak
+fi
+
+
 # zsh
 read -p $'\nInstall zsh and plugins? (y/n): ' install_zsh
 if [[ $install_zsh == "y" || $install_zsh == "Y" ]]; then
@@ -122,7 +130,6 @@ if [[ $install_zsh == "y" || $install_zsh == "Y" ]]; then
         zsh \
         zsh-autosuggestions \
         zsh-syntax-highlighting \
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     curl -sS https://starship.rs/install.sh | sh
 fi
 
@@ -150,21 +157,4 @@ read -p $'\nInstall Tmux Plugin Manager(TPM)? (y/n): ' install_tpm
 if [[ $install_tpm == "y" || $install_tpm == "Y" ]]; then
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     echo "\n\nTmux Plugin Manager installed. Press prefix + I in 'tmux' to install plugins."
-fi
-
-
-# package managers (flatpak and brew)
-read -p $'\nInstall package managers (flatpak, homebrew)? (y/n): ' install_pkgmgrs
-if [[ $install_pkgmgrs == "y" || $install_pkgmgrs == "Y" ]]; then
-    read -p $'\nInstall flatpak? (y/n): ' install_flatpak
-    if [[ $install_flatpak == "y" || $install_flatpak == "Y" ]]; then
-        echo "\n\nInstalling flatpak..."
-        yay -S --needed --noconfirm flatpak
-    fi
-
-    read -p $'\nInstall homebrew? (y/n): ' install_homebrew
-    if [[ $install_homebrew == "y" || $install_homebrew == "Y" ]]; then
-        echo "\n\nInstalling homebrew..."
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    fi
 fi
