@@ -1,160 +1,148 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
+# Colors
+GREEN="\e[32m"
+YELLOW="\e[33m"
+CYAN="\e[36m"
+RESET="\e[0m"
 
-# yay
-echo "\nInstalling yay..."
-sudo pacman -S --needed --noconfirm git base-devel
-git clone https://aur.archlinux.org/yay.git
-cd yay
-makepkg -si
+msg() {
+    echo -e "\n${CYAN}==>${RESET} $1"
+}
 
+complete() {
+    echo -e "\n${CYAN}==>${RESET} ${GREEN}$1${RESET}\n"
+}
 
-# update the system
-read -p $'\nUpdate the system? (y/n): ' update_system
-if [[ $update_system == "y" || $update_system == "Y" ]]; then
-    echo "\n\nUpdating the system..."
-    yay -Syu --noconfirm
+prompt() {
+    read -rp "$(echo -e "\n${YELLOW}$1 (y/n): ${RESET}")" choice
+    [[ "$choice" =~ ^[Yy]$ ]]
+}
+
+# Ensure script is run on Arch
+if ! grep -qi "arch" /etc/os-release; then
+    echo "This script is only for Arch Linux."
+    exit 1
 fi
 
+# Base dependencies
+msg "Installing base dependencies..."
+sudo pacman -S --needed --noconfirm curl wget unzip git base-devel stow
 
-# dependencies
-echo "\n\nInstalling dependencies..."
-yay -S --needed --noconfirm \
-    curl \
-    wget \
-    unzip \
-    stow
+# Install yay if not already installed
+if ! command -v yay >/dev/null 2>&1; then
+    msg "Installing yay..."
 
+    sudo pacman -S --needed --noconfirm git base-devel
+    tmpdir=$(mktemp -d)
+    git clone https://aur.archlinux.org/yay.git "$tmpdir/yay"
+    pushd "$tmpdir/yay"
+    makepkg -si --noconfirm
+    popd
+    rm -rf "$tmpdir"
 
-# dotfiles
-read -p $'\nInstall dotfiles? (y/n): ' install_dotfiles
-if [[ $install_dotfiles == "y" || $install_dotfiles == "Y" ]]; then
-    echo "\n\nInstalling dotfiles..."
-    cd ~ && git clone https://github.com/ASH-WIN-10/dotfiles.git
-    cd dotfiles
+    complete "yay installed successfully!!"
+else
+    msg "yay is already installed."
+fi
+
+# Update system
+msg "Updating system..."
+yay -Syu --noconfirm
+
+# Dotfiles
+if prompt "Install dotfiles?"; then
+    msg "Installing dotfiles..."
+    if [[ ! -d "$HOME/dotfiles" ]]; then
+        git clone https://github.com/ASH-WIN-10/dotfiles.git "$HOME/dotfiles"
+    fi
+    pushd "$HOME/dotfiles"
     stow fastfetch homedir nvim scripts tmux wlogout \
         ghostty hypr kitty pywal rofi swaync waybar
+    popd
 
-    # packages
-    echo "\n\nInstalling packages..."
+    msg "Installing dependencies for dotfiles..."
     yay -S --needed --noconfirm \
-        hyprland \
-        python-pywal \
-        waybar \
-        rofi-wayland rofimoji\
-        swaync powerlalertd \
-        wl-clipboard cliphist \
-        hyprpaper swww \
-        ghostty \
-        wlogout \
-        hyprshot \
-        hypridle hyprlock \
-        zen-browser-bin google-chrome \
-        nautilus shushi
+        hyprland python-pywal waybar \
+        rofi-wayland rofimoji swaync poweralertd \
+        wl-clipboard cliphist waypaper swww wlogout \
+        hyprshot hypridle hyprlock zen-browser-bin \
+        nautilus sushi ghostty \
+        nm-applet blueberry
+
+    complete "dotfiles installed successfully!!"
 fi
 
+# Polkit
+if prompt "Setup polkit agent?"; then
+    yay -S --needed --noconfirm polkit hyprpolkitagent
+    sudo systemctl enable polkit.service
 
-# setup polkit agent
-read -p $'\nSetup polkit agent? (y/n): ' setup_polkit
-if [[ $setup_polkit == "y" || $setup_polkit == "Y" ]]; then
-    echo "\n\nSetting up polkit agent..."
-    yay -S --needed --noconfirm \
-        polkit \
-        hyprpolkitagent
-    sudo systemctl enable --now polkit.service
+    complete "Polkit agent setup complete!!"
 fi
 
-
-# fonts
-read -p $'\nInstall fonts? (y/n): ' install_fonts
-if [[ $install_fonts == "y" || $install_fonts == "Y" ]]; then
-    echo "\n\nInstalling fonts..."
-    cd ~ && mkdir -p ~/.local/share/fonts
-    wget https://www.1001fonts.com/download/alfa-slab-one.zip
-    unzip alfa-slab-one.zip -d ~/.local/share/fonts
-    rm alfa-slab-one.zip
-
+# Fonts
+if prompt "Install fonts?"; then
+    msg "Installing fonts..."
+    mkdir -p "$HOME/.local/share/fonts"
+    tmpdir=$(mktemp -d)
+    wget -qO "$tmpdir/alfa.zip" https://www.1001fonts.com/download/alfa-slab-one.zip
+    unzip -q "$tmpdir/alfa.zip" -d "$HOME/.local/share/fonts"
     yay -S --needed --noconfirm \
         noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra \
         ttf-jetbrains-mono-nerd
+    rm -rf "$tmpdir"
+
+    complete "Fonts installed successfully!!"
 fi
 
+# Cursor theme
+if prompt "Install cursor theme?"; then
+    tmpdir=$(mktemp -d)
+    wget -qO "$tmpdir/cursor.tar.xz" \
+        https://github.com/ful1e5/Bibata_Cursor/releases/download/v2.0.7/Bibata-Modern-Ice.tar.xz
+    tar -xf "$tmpdir/cursor.tar.xz" -C "$tmpdir"
+    mkdir -p "$HOME/.local/share/icons"
+    mv "$tmpdir/Bibata-Modern-Ice" "$HOME/.local/share/icons/"
+    rm -rf "$tmpdir"
 
-# cursor themse
-read -p $'\nInstall cursor theme? (y/n): ' install_theme
-if [[ $install_theme == "y" || $install_theme == "Y" ]]; then
-    wget https://github.com/ful1e5/Bibata_Cursor/releases/download/v2.0.7/Bibata-Modern-Ice.tar.xz
-    tar -xvf Bibata-Modern-Ice.tar.xz
-    mv Bibata-Modern-Ice ~/.local/share/icons/
-    rm Bibata-Modern-Ice.tar.xz
+    complete "Cursor theme installed successfully!!"
 fi
 
-# wallpapers
-read -p $'\nInstall wallpapers? (y/n): ' install_wallpapers
-if [[ $install_wallpapers == "y" || $install_wallpapers == "Y" ]]; then
-    echo "\n\nInstalling wallpapers..."
-    mkdir -p ~/Pictures/Wallpapers/all
-    cd ~/Pictures/Wallpapers/all
-    git clone https://github.com/ASH-WIN-10/wallpapers.git
-    mv wallpapers/* .
-    rm -r wallpapers && cd ~
+# Wallpapers
+if prompt "Add wallpapers?"; then
+    mkdir -p "$HOME/Pictures/Wallpapers/all"
+    tmpdir=$(mktemp -d)
+    git clone https://github.com/ASH-WIN-10/wallpapers.git "$tmpdir"
+    mv "$tmpdir"/* "$HOME/Pictures/Wallpapers/all/"
+    rm -rf "$tmpdir"
+
+    complete "Wallpapers added successfully!!"
 fi
 
+# archinstall has integrated this feature, so might remove this in future after testing
+# Bluetooth
+# if prompt "Setup bluetooth?"; then
+#     yay -S --needed --noconfirm bluez bluez-utils bluez-deprecated-tools
+#     sudo modprobe btusb
+#     sudo systemctl enable bluetooth.service
+# fi
 
-# setting up bluetooth
-read -p $'\nSetup bluetooth? (y/n): ' setup_bluetooth
-if [[ $setup_bluetooth == "y" || $setup_bluetooth == "Y" ]]; then
-    echo "\n\nSetting up bluetooth..."
+# Terminal utilities
+if prompt "Install terminal utilities?"; then
     yay -S --needed --noconfirm \
-        bluez \
-        bluez-utils \
-        bluez-deprecated-tools
-    modprobe btusb
-    sudo systemctl enable --now bluetooth.service
+        neovim tmux bat eza fd fzf ripgrep zoxide dust btop
+
+    msg "Installing Tmux Plugin Manager (TPM)..."; then
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm || true
+    msg "TPM installed. Inside tmux, press prefix + I to install plugins."
 fi
 
-
-# package managers (flatpak)
-read -p $'\nInstall flatpak? (y/n): ' install_flatpak
-if [[ $install_flatpak == "y" || $install_flatpak == "Y" ]]; then
-    echo "\n\nInstalling flatpak..."
-    yay -S --needed --noconfirm flatpak
+# Zsh
+if prompt "Install zsh and plugins?"; then
+    yay -S --needed --noconfirm zsh zsh-autosuggestions zsh-syntax-highlighting starship
+    RUNZSH="no" KEEP_ZSHRC="yes" sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 
-
-# zsh
-read -p $'\nInstall zsh and plugins? (y/n): ' install_zsh
-if [[ $install_zsh == "y" || $install_zsh == "Y" ]]; then
-    echo "\n\nInstalling zsh and plugins..."
-    yay -S --needed --noconfirm \
-        zsh \
-        zsh-autosuggestions \
-        zsh-syntax-highlighting \
-    curl -sS https://starship.rs/install.sh | sh
-fi
-
-
-# terminal utilities
-read -p $'\nInstall terminal utilities? (y/n): ' install_termutils
-if [[ $install_termutils == "y" || $install_termutils == "Y" ]]; then
-    echo "\n\nInstalling terminal utilities..."
-    yay -S --needed --noconfirm \
-        neovim \
-        tmux \
-        bat \
-        eza \
-        fd \
-        fzf \
-        ripgrep \
-        zoxide \
-        dust \
-        btop
-fi
-
-
-# tpm
-read -p $'\nInstall Tmux Plugin Manager(TPM)? (y/n): ' install_tpm
-if [[ $install_tpm == "y" || $install_tpm == "Y" ]]; then
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-    echo "\n\nTmux Plugin Manager installed. Press prefix + I in 'tmux' to install plugins."
-fi
+complete "Setup complete!!"
