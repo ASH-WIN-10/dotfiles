@@ -5,7 +5,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="refined"
+# ZSH_THEME="refined"
 
 # Plugins
 plugins=(git web-search)
@@ -13,45 +13,20 @@ plugins=(git web-search)
 source $ZSH/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+fi
 
-
-# Variables
 SAVEHIST=100
 HISTFILE=~/.zsh_history
-EDITOR=nvim
 
 ###################################################
 
-###############
-#### PROMT ####
-###############
-
-### Powerlevel10k ###
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
-# source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-#####################
-
-#### Starship ####
-# eval "$(starship init zsh)"
+#### Prompt ####
+eval "$(starship init zsh)"
 ##################
-
-#### oh-my-posh ####
-# eval "$(oh-my-posh init zsh)"
-####################
-
-
-##############
-#### END #####
-##############
-
 
 # zsh-autosuggestions plugin
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -60,7 +35,7 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # eza(better ls)
-alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
+alias ls="eza --color=always --git --icons=always"
 
 
 # Set up fzf key bindings and fuzzy completion
@@ -105,19 +80,12 @@ eval "$(zoxide init zsh)"
 alias cd="z"
 
 
-## case insensitive path-completion
-# autoload -Uz +X compinit && compinit
-#
-# zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-# zstyle ':completion:*' menu select
-
-# bun completions
-[ -s "/home/ashvinjangid/.bun/_bun" ] && source "/home/ashvinjangid/.bun/_bun"
-
-# bun
+## bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH=$HOME/.local/bin:$PATH
+# bun completions
+[ -s "/home/ashvin/.bun/_bun" ] && source "/home/ashvin/.bun/_bun"
 
 
 # pywal theme for all new terminals sessions
@@ -135,9 +103,6 @@ source ~/.config/envman/PATH.env
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 export PATH=$PATH:$HOME/go/bin
-
-# spicetify
-export PATH=$PATH:/home/ashvinjangid/.spicetify
 
 # nvm (Node Version Manager)
 export NVM_DIR="$HOME/.nvm"
