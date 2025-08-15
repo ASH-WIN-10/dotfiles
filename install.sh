@@ -58,7 +58,7 @@ if prompt "Install dotfiles?"; then
     fi
     pushd "$HOME/dotfiles"
     stow fastfetch homedir nvim scripts tmux wlogout \
-        ghostty hypr kitty pywal rofi swaync waybar
+        ghostty hypr kitty pywal rofi swaync waybar waypaper
     popd
 
     msg "Installing dependencies for dotfiles..."
