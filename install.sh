@@ -26,6 +26,10 @@ if ! grep -qi "arch" /etc/os-release; then
     exit 1
 fi
 
+# Update system
+msg "Updating the system..."
+sudo pacman -Syu --noconfirm
+
 # Base dependencies
 msg "Installing base dependencies..."
 sudo pacman -S --needed --noconfirm curl wget unzip git base-devel stow
@@ -34,7 +38,6 @@ sudo pacman -S --needed --noconfirm curl wget unzip git base-devel stow
 if ! command -v yay >/dev/null 2>&1; then
     msg "Installing yay..."
 
-    sudo pacman -S --needed --noconfirm git base-devel
     tmpdir=$(mktemp -d)
     git clone https://aur.archlinux.org/yay.git "$tmpdir/yay"
     pushd "$tmpdir/yay"
@@ -46,10 +49,6 @@ if ! command -v yay >/dev/null 2>&1; then
 else
     msg "yay is already installed."
 fi
-
-# Update system
-msg "Updating system..."
-yay -Syu --noconfirm
 
 # Dotfiles
 if prompt "Install dotfiles?"; then
@@ -134,9 +133,9 @@ if prompt "Install terminal utilities?"; then
     yay -S --needed --noconfirm \
         neovim tmux bat eza fd fzf ripgrep zoxide dust btop
 
-    msg "Installing Tmux Plugin Manager (TPM)..."; then
+    msg "Installing Tmux Plugin Manager (TPM)...";
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm || true
-    msg "TPM installed. Inside tmux, press prefix + I to install plugins."
+    msg "TPM installed. Inside tmux, press 'Prefix(ctrl-a) + I' to install plugins."
 fi
 
 # Zsh
