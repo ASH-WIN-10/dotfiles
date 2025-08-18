@@ -54,7 +54,7 @@ fi
 if prompt "Install dotfiles?"; then
     msg "Installing dotfiles..."
     if [[ ! -d "$HOME/dotfiles" ]]; then
-        git clone https://github.com/ASH-WIN-10/dotfiles.git "$HOME/dotfiles"
+        git clone --recurse-submodules https://github.com/ASH-WIN-10/dotfiles.git "$HOME/dotfiles"
     fi
     pushd "$HOME/dotfiles"
     stow fastfetch homedir nvim scripts tmux wlogout \
