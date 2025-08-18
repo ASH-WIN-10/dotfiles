@@ -31,6 +31,7 @@ else
         ~/Workspace/Projects/ \
         ~/Workspace/DSA/ \
         ~/Workspace/Techanic-Infotech/ \
+        ~/Workspace/github/ \
         ~/.config \
         ~/.local/bin/ \
         -mindepth 1 -maxdepth 1 -type d,l | fzf)
